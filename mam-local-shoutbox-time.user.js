@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.myanonamouse.net/*
 // @grant       none
-// @version     0.1
+// @version     0.2
 // @author      jack
 // @description Simple userscript that displays local time for shoutbox messages
 // ==/UserScript==
@@ -24,7 +24,22 @@ function main() {
       let date = new Date(stamp);
       let newDate = convertTZ(date, Intl.DateTimeFormat().resolvedOptions().timeZone);
       if (force24Format) {
-        timestamps[i].innerText = newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds();
+        let hours = newDate.getHours();
+        if (hours < 10) {
+          hours = '0' + hours;
+        }
+        
+        let minutes = newDate.getMinutes();
+        if (minutes < 10) {
+          minutes = '0' + minutes;
+        }
+        
+        let seconds = newDate.getSeconds();
+        if (seconds < 10) {
+          seconds = '0' + seconds;
+        }
+        
+        timestamps[i].innerText = hours + ':' + minutes + ':' + seconds;
       } else {
         timestamps[i].innerText = newDate.toLocaleTimeString();
       }
